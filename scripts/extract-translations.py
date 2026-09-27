@@ -226,6 +226,8 @@ BREAK_LINE = (
     re.compile(r'^\s*\d{4}\s*年\s*\d{1,2}\s*月.*真题'),
     # OCR 的页脚常带个前导圆点：'·2023年12月四级真题（第一套）'
     re.compile(r'^\s*[·•・]\s*\d{4}\s*年'),
+    # 还有写成 '2022.6/14（第2套）'、'2021.06.30（第一套）' 的
+    re.compile(r'^\s*\d{4}\s*[./]\s*\d{1,2}\s*[/.]\s*\d{1,2}'),
     re.compile(r'第\s*\d+\s*页\s*共\s*\d+\s*页'),
 )
 
@@ -431,6 +433,31 @@ def _split_soft_wraps(p: str):
     return [p]
 
 
+def _para_seam(p: str):
+    """在粘成一团的长句里找「段落接缝」，返回接缝左边的文本，找不到返回 None。
+
+    有的 docx 把两段中文粘在同一处，中间连标点都不留（2021.06 六级第2套
+    在青海湖那段后面粘了整段「青海山川壮丽…」）。判据是段落的折行特征：
+
+      * 一段的最后一行排不满一栏 → 短；
+      * 下一段的第一行总是满的；
+      * 段内折行的前后两行都是满的。
+
+    段内折行和接缝唯一的区别就在这里。再要求接缝之后整截都没有句末标点
+    ——真题翻译段是连贯的一整篇，不可能有一整截不带句号；粘上来的文本
+    才会这样。两道都过得去才敢切。
+    """
+    idxs = [mm.start() for mm in re.finditer(r'\x01', p)]
+    for n, i in enumerate(idxs):
+        lo = idxs[n - 1] + 1 if n else 0
+        hi = idxs[n + 1] if n + 1 < len(idxs) else len(p)
+        left, right = p[lo:i], p[i + 1:hi]
+        if len(left) <= 15 and len(right) >= 25 \
+                and not re.search(r'[。？！]', p[i + 1:]):
+            return p[:i].rstrip()
+    return None
+
+
 def split_sentences(para: str):
     """拆句并逐句收提示词。
 
@@ -453,15 +480,23 @@ def split_sentences(para: str):
             if len(chunks) > 1:
                 pieces += chunks
                 continue
+            # 连标点都没留下的粘法：找段落接缝，只留接缝左边那段
+            head = _para_seam(p)
+            if head is not None:
+                if head.rstrip()[-1:] not in '。？！':
+                    head += '。'
+                pieces.append(head)
+                continue
+        # 注意这条不能缩进到上面的 if 里：正常长度的句子全都走这里，
+        # 一旦嵌进去就会被整句丢掉
         pieces.append(p)
 
     out = []
     for p in pieces:
-        # 除了最后一句，其余必须以句末标点收尾。收不成句号的说明上一刀切错了
-        # 位置（源文件在中途硬换行），拼回下一句——长句可以接受，半句话不行。
-        if out and p.rstrip()[-1:] not in '。？！':
-            out[-1] = (out[-1][0] + p, out[-1][1])
-            continue
+        # 不在这里往回拼句子。_split_soft_wraps 只在中文标点后切，切出来的块
+        # 天然带收尾标点；没收尾标点的是源文件本身被截断（2021.06 青海湖），
+        # 必须原样留下，交给 extract() 的收尾修剪去判断。在这里拼会把两份
+        # 不同卷子的翻译段粘成一句。
         clean, hints = strip_hints(p)
         clean = _squeeze_ws_no_latin(clean.replace('\x01', '')).strip()
         if len(clean) < 4 or not CJK.search(clean) or BOILERPLATE.search(clean):
@@ -481,13 +516,16 @@ def repair_punct(zh: str) -> str:
     2. 逗号渲成感叹号（地大物博!石油和天然气…）
     3. 逗号渲成右单引号（…发源地’在中国的水生态…）
     4. 千分位逗号被认成句点（OCR：'2.000多年'）。
+
+    2、3 两条必须允许标点两侧有空格：Word 导出常排成「地大物博 !石油」
+    「发源地 ’在中国」，正则不放开 \s* 就一条都修不到。
     """
     # OCR 常把千分位逗号认成句点：'2.000多年' → '2,000多年'
     z = re.sub(r'(?<=\d)\.(?=\d{3}(?!\d))', ',', zh)
     z = re.sub(r'(?<=[一-鿿）】」』])\s*[oO](?=\s*(?:[一-鿿]|\x01|$))', '。', z)
-    z = re.sub(r'(?<=[一-鿿])[’\'](?=[一-鿿])', '，', z)
+    z = re.sub(r'(?<=[一-鿿])\s*[’\']\s*(?=[一-鿿])', '，', z)
     # 半角感叹号夹在中文里基本是坏逗号
-    z = re.sub(r'(?<=[一-鿿])!(?=[一-鿿])', '，', z)
+    z = re.sub(r'(?<=[一-鿿])\s*!\s*(?=[一-鿿])', '，', z)
     return z
 
 
@@ -579,12 +617,16 @@ def quality(paras: list[str], sents: list[str]) -> float:
     用于同一套卷子的 PDF / Word 两份来源里挑更好的那份。纯按句子数挑会
     选中那种把翻译段交错印两遍的「可复制可搜索」PDF——它的句子数反而更多。
     所以这里同时罚三种情况：短碎句、被别的句子包含的冗余句、正文重复。
+    还要按汉字总量加分：2023.12 那份「可复制可检索」PDF 把「物流业」三个字
+    丢在版面的另一栏里，句子数一样但内容少了，只有比字数才能看出来。
     """
     good = sum(1 for s in sents if s.rstrip()[-1:] in '。？！')
     frag = sum(1 for s in sents if len(s) < 14)
     redun = sum(1 for i, s in enumerate(sents)
                 if any(s in o for j, o in enumerate(sents) if j != i))
-    return good * 2 - len(sents) - frag * 2 - redun * 3 - 20 * dup_ratio(''.join(paras))
+    cjk = len(CJK.findall(''.join(paras)))
+    return (good * 2 - len(sents) - frag * 2 - redun * 3
+            - 20 * dup_ratio(''.join(paras)) + min(cjk, 400) / 100)
 
 
 # --------------------------------------------------------------------------

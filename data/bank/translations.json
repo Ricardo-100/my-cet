@@ -5,20 +5,20 @@
    "cet6"
   ],
   "useOcr": true,
-  "papers": 158,
-  "sentences": 901,
-  "withHints": 101,
+  "papers": 160,
+  "sentences": 909,
+  "withHints": 102,
   "byExam": {
    "2013.06": 18,
    "2013.12": 18,
-   "2014.06": 35,
+   "2014.06": 34,
    "2014.12": 19,
    "2015.06": 39,
    "2015.12": 37,
-   "2016.06": 38,
+   "2016.06": 37,
    "2016.12": 37,
    "2017.06": 42,
-   "2017.12": 25,
+   "2017.12": 37,
    "2018.06": 37,
    "2018.12": 38,
    "2019.06": 36,
@@ -32,7 +32,7 @@
    "2022.09": 34,
    "2022.12": 35,
    "2023.03": 11,
-   "2023.06": 25,
+   "2023.06": 23,
    "2023.12": 31,
    "2024.06": 31,
    "2024.12": 28,
@@ -41,7 +41,7 @@
    "2026.06": 33
   },
   "byDetection": {
-   "header": 155,
+   "header": 157,
    "fallback": 3
   }
  },
@@ -1121,18 +1121,6 @@
    "extractedBy": "header"
   },
   {
-   "id": "cet4-2016.06-3-7",
-   "level": "cet4",
-   "exam": "2016.06",
-   "paper": 3,
-   "seq": 7,
-   "source": "注意：此部分试题请在答题卡2上作答。",
-   "hints": [],
-   "vocab": [],
-   "sourceFile": "2016年6月大学英语四级第3套真题.doc",
-   "extractedBy": "header"
-  },
-  {
    "id": "cet4-2016.12-1-1",
    "level": "cet4",
    "exam": "2016.12",
@@ -1666,6 +1654,150 @@
    "hints": [],
    "vocab": [],
    "sourceFile": "2017年12月英语四级真题（卷一）.docx",
+   "extractedBy": "header"
+  },
+  {
+   "id": "cet4-2017.12-3-1",
+   "level": "cet4",
+   "exam": "2017.12",
+   "paper": 3,
+   "seq": 1,
+   "source": "黄山位于安徽省南部。",
+   "hints": [],
+   "vocab": [],
+   "sourceFile": "2017年12月英语四级真题（卷三）.docx",
+   "extractedBy": "header"
+  },
+  {
+   "id": "cet4-2017.12-3-2",
+   "level": "cet4",
+   "exam": "2017.12",
+   "paper": 3,
+   "seq": 2,
+   "source": "它风景独特，尤以其日出和云海著称。",
+   "hints": [],
+   "vocab": [],
+   "sourceFile": "2017年12月英语四级真题（卷三）.docx",
+   "extractedBy": "header"
+  },
+  {
+   "id": "cet4-2017.12-3-3",
+   "level": "cet4",
+   "exam": "2017.12",
+   "paper": 3,
+   "seq": 3,
+   "source": "要欣赏大山的宏伟壮丽，通常得向上看。",
+   "hints": [],
+   "vocab": [],
+   "sourceFile": "2017年12月英语四级真题（卷三）.docx",
+   "extractedBy": "header"
+  },
+  {
+   "id": "cet4-2017.12-3-4",
+   "level": "cet4",
+   "exam": "2017.12",
+   "paper": 3,
+   "seq": 4,
+   "source": "但要欣赏黄山美景，得向下看。",
+   "hints": [],
+   "vocab": [],
+   "sourceFile": "2017年12月英语四级真题（卷三）.docx",
+   "extractedBy": "header"
+  },
+  {
+   "id": "cet4-2017.12-3-5",
+   "level": "cet4",
+   "exam": "2017.12",
+   "paper": 3,
+   "seq": 5,
+   "source": "黄山的湿润气候有利于茶树生成，是中国主要产茶地之一。",
+   "hints": [],
+   "vocab": [],
+   "sourceFile": "2017年12月英语四级真题（卷三）.docx",
+   "extractedBy": "header"
+  },
+  {
+   "id": "cet4-2017.12-3-6",
+   "level": "cet4",
+   "exam": "2017.12",
+   "paper": 3,
+   "seq": 6,
+   "source": "这里还有许多温泉，其泉水有助于防治皮肤病。",
+   "hints": [],
+   "vocab": [],
+   "sourceFile": "2017年12月英语四级真题（卷三）.docx",
+   "extractedBy": "header"
+  },
+  {
+   "id": "cet4-2017.12-3-7",
+   "level": "cet4",
+   "exam": "2017.12",
+   "paper": 3,
+   "seq": 7,
+   "source": "黄山是中国主要旅游目的地之一，也是摄影和传统国画最受欢迎的主题。",
+   "hints": [],
+   "vocab": [],
+   "sourceFile": "2017年12月英语四级真题（卷三）.docx",
+   "extractedBy": "header"
+  },
+  {
+   "id": "cet4-2017.12-2-1",
+   "level": "cet4",
+   "exam": "2017.12",
+   "paper": 2,
+   "seq": 1,
+   "source": "华山位于华阴市，距西安120公里。",
+   "hints": [],
+   "vocab": [],
+   "sourceFile": "2017年12月英语四级真题（卷二）.doc",
+   "extractedBy": "header"
+  },
+  {
+   "id": "cet4-2017.12-2-2",
+   "level": "cet4",
+   "exam": "2017.12",
+   "paper": 2,
+   "seq": 2,
+   "source": "华山是秦岭的一部分，秦岭不仅分割陕南与陕北，也分隔华南与华北。",
+   "hints": [],
+   "vocab": [],
+   "sourceFile": "2017年12月英语四级真题（卷二）.doc",
+   "extractedBy": "header"
+  },
+  {
+   "id": "cet4-2017.12-2-3",
+   "level": "cet4",
+   "exam": "2017.12",
+   "paper": 2,
+   "seq": 3,
+   "source": "与从前人们常去朝拜的泰山不同，华山过去很少有人光临，因为上山的道路极其危险。",
+   "hints": [],
+   "vocab": [],
+   "sourceFile": "2017年12月英语四级真题（卷二）.doc",
+   "extractedBy": "header"
+  },
+  {
+   "id": "cet4-2017.12-2-4",
+   "level": "cet4",
+   "exam": "2017.12",
+   "paper": 2,
+   "seq": 4,
+   "source": "然而，希望长寿的人却经常上山，因为山上生长着许多草药，特别是一些稀有的药草。",
+   "hints": [],
+   "vocab": [],
+   "sourceFile": "2017年12月英语四级真题（卷二）.doc",
+   "extractedBy": "header"
+  },
+  {
+   "id": "cet4-2017.12-2-5",
+   "level": "cet4",
+   "exam": "2017.12",
+   "paper": 2,
+   "seq": 5,
+   "source": "自上世纪90年代安装缆车以来，参观人数大大增加。",
+   "hints": [],
+   "vocab": [],
+   "sourceFile": "2017年12月英语四级真题（卷二）.doc",
    "extractedBy": "header"
   },
   {
@@ -2716,10 +2848,10 @@
    "seq": 2,
    "source": "传说，神农氏喝开水时，几片野树叶子落进壶里，开水顿时散发出宜人的香味。",
    "hints": [
-    "ShenNong"
+    "Shen Nong"
    ],
    "vocab": [
-    "ShenNong"
+    "Shen Nong"
    ],
    "sourceFile": "cet4_2020_09_2.pdf",
    "extractedBy": "header"
@@ -3268,10 +3400,10 @@
    "seq": 1,
    "source": "大运河是世界上最长的人工河，北起北京，南至杭州。",
    "hints": [
-    "GrandCanal"
+    "Grand Canal"
    ],
    "vocab": [
-    "GrandCanal"
+    "Grand Canal"
    ],
    "sourceFile": "cet4_2021_12_1.pdf",
    "extractedBy": "header"
@@ -3894,10 +4026,10 @@
    "seq": 1,
    "source": "在中国农历中，立秋意味着夏天的结束和秋天的开始。",
    "hints": [
-    "StartofAutumn"
+    "Startof Autumn"
    ],
    "vocab": [
-    "StartofAutumn"
+    "Startof Autumn"
    ],
    "sourceFile": "cet4_2022_12_1.pdf",
    "extractedBy": "header"
@@ -3958,10 +4090,10 @@
    "seq": 1,
    "source": "立春在中国农历中表示春天的开始。",
    "hints": [
-    "StartofSpring"
+    "Startof Spring"
    ],
    "vocab": [
-    "StartofSpring"
+    "Startof Spring"
    ],
    "sourceFile": "cet4_2022_12_2.pdf",
    "extractedBy": "header"
@@ -4034,10 +4166,10 @@
    "seq": 1,
    "source": "冬至是全年白昼最短、黑夜最长的一天，标志着一年中最寒冷时节的开始。",
    "hints": [
-    "WinterSolstice"
+    "Winter Solstice"
    ],
    "vocab": [
-    "WinterSolstice"
+    "Winter Solstice"
    ],
    "sourceFile": "cet4_2022_12_3.pdf",
    "extractedBy": "header"
@@ -4500,12 +4632,12 @@
    "seq": 1,
    "source": "改革开放以来，中国人民生活水平不断提高，这在人们的饮食变化上得到充分体现。",
    "hints": [
-    "d iet"
+    "diet"
    ],
    "vocab": [
-    "d iet"
+    "diet"
    ],
-   "sourceFile": "2023.12四级真题第3套【可复制可检索】.pdf",
+   "sourceFile": "cet4_2023_12_3.pdf",
    "extractedBy": "header"
   },
   {
@@ -4517,7 +4649,7 @@
    "source": "如今，人们不再满足于吃得饱，而是追求吃得更加安全、更加营养、更加健康，食物也愈来愈丰富多样，不再限于本地的农产品。",
    "hints": [],
    "vocab": [],
-   "sourceFile": "2023.12四级真题第3套【可复制可检索】.pdf",
+   "sourceFile": "cet4_2023_12_3.pdf",
    "extractedBy": "header"
   },
   {
@@ -4526,14 +4658,14 @@
    "exam": "2023.12",
    "paper": 3,
    "seq": 3,
-   "source": "的发展使人们很容易品尝到全国各地的特产。",
+   "source": "物流业的发展使人们很容易品尝到全国各地的特产。",
    "hints": [
-    "logistics industry"
+    "logisticsindustry"
    ],
    "vocab": [
-    "logistics industry"
+    "logisticsindustry"
    ],
-   "sourceFile": "2023.12四级真题第3套【可复制可检索】.pdf",
+   "sourceFile": "cet4_2023_12_3.pdf",
    "extractedBy": "header"
   },
   {
@@ -4545,7 +4677,7 @@
    "source": "毫无疑问，食品质量与饮食结构的改善为增进人们健康提供了有力的保障。",
    "hints": [],
    "vocab": [],
-   "sourceFile": "2023.12四级真题第3套【可复制可检索】.pdf",
+   "sourceFile": "cet4_2023_12_3.pdf",
    "extractedBy": "header"
   },
   {
@@ -6045,18 +6177,6 @@
    "extractedBy": "header"
   },
   {
-   "id": "cet6-2014.06-3-7",
-   "level": "cet6",
-   "exam": "2014.06",
-   "paper": 3,
-   "seq": 7,
-   "source": "注意：此部分试题请在答题卡2上作答。",
-   "hints": [],
-   "vocab": [],
-   "sourceFile": "2014年6月大学英语六级考试真题（三）.doc",
-   "extractedBy": "header"
-  },
-  {
    "id": "cet6-2014.06-2-1",
    "level": "cet6",
    "exam": "2014.06",
@@ -7159,7 +7279,7 @@
    "source": "明朝统治中国276年，被人们描绘成人类历史上治理有序、社会稳定的最伟大的时代之一。",
    "hints": [],
    "vocab": [],
-   "sourceFile": "2017年06月六级真题（第1套）.docx",
+   "sourceFile": "2017.06六级真题第1套【可复制可搜索，打印首选】.pdf",
    "extractedBy": "header"
   },
   {
@@ -7171,7 +7291,7 @@
    "source": "这一时期，手工业的发展促进了市场经济和城市化。",
    "hints": [],
    "vocab": [],
-   "sourceFile": "2017年06月六级真题（第1套）.docx",
+   "sourceFile": "2017.06六级真题第1套【可复制可搜索，打印首选】.pdf",
    "extractedBy": "header"
   },
   {
@@ -7183,7 +7303,7 @@
    "source": "大量商品，包括酒和丝绸，都在市场销售。",
    "hints": [],
    "vocab": [],
-   "sourceFile": "2017年06月六级真题（第1套）.docx",
+   "sourceFile": "2017.06六级真题第1套【可复制可搜索，打印首选】.pdf",
    "extractedBy": "header"
   },
   {
@@ -7195,7 +7315,7 @@
    "source": "同时，还进口许多外国商品，如时钟和烟草。",
    "hints": [],
    "vocab": [],
-   "sourceFile": "2017年06月六级真题（第1套）.docx",
+   "sourceFile": "2017.06六级真题第1套【可复制可搜索，打印首选】.pdf",
    "extractedBy": "header"
   },
   {
@@ -7207,7 +7327,7 @@
    "source": "北京、南京、扬州、苏州这样的大商业中心相继形成。",
    "hints": [],
    "vocab": [],
-   "sourceFile": "2017年06月六级真题（第1套）.docx",
+   "sourceFile": "2017.06六级真题第1套【可复制可搜索，打印首选】.pdf",
    "extractedBy": "header"
   },
   {
@@ -7219,7 +7339,7 @@
    "source": "也是在明代，由郑和率领的船队曾到印度洋进行了七次大规模探险航行。",
    "hints": [],
    "vocab": [],
-   "sourceFile": "2017年06月六级真题（第1套）.docx",
+   "sourceFile": "2017.06六级真题第1套【可复制可搜索，打印首选】.pdf",
    "extractedBy": "header"
   },
   {
@@ -7231,7 +7351,7 @@
    "source": "还值得一提的是，中国文学的四大经典名著中有三部写于明代。",
    "hints": [],
    "vocab": [],
-   "sourceFile": "2017年06月六级真题（第1套）.docx",
+   "sourceFile": "2017.06六级真题第1套【可复制可搜索，打印首选】.pdf",
    "extractedBy": "header"
   },
   {
@@ -7243,7 +7363,7 @@
    "source": "宋朝始于960年，一直延续到1279年。",
    "hints": [],
    "vocab": [],
-   "sourceFile": "2017年06月六级真题（第2套）.docx",
+   "sourceFile": "2017.06六级真题第2套【可复制可搜索，打印首选】.pdf",
    "extractedBy": "header"
   },
   {
@@ -7255,7 +7375,7 @@
    "source": "这一时期，中国经济大幅增长，成为世界上最先进的经济体，科学、技术、哲学和数学蓬勃发展。",
    "hints": [],
    "vocab": [],
-   "sourceFile": "2017年06月六级真题（第2套）.docx",
+   "sourceFile": "2017.06六级真题第2套【可复制可搜索，打印首选】.pdf",
    "extractedBy": "header"
   },
   {
@@ -7267,7 +7387,7 @@
    "source": "宋代中国是世界历史上首先发行纸币的国家。",
    "hints": [],
    "vocab": [],
-   "sourceFile": "2017年06月六级真题（第2套）.docx",
+   "sourceFile": "2017.06六级真题第2套【可复制可搜索，打印首选】.pdf",
    "extractedBy": "header"
   },
   {
@@ -7283,7 +7403,7 @@
    "vocab": [
     "movable-type"
    ],
-   "sourceFile": "2017年06月六级真题（第2套）.docx",
+   "sourceFile": "2017.06六级真题第2套【可复制可搜索，打印首选】.pdf",
    "extractedBy": "header"
   },
   {
@@ -7295,7 +7415,7 @@
    "source": "人口增长迅速，越来越多的人住进城市，那里有热闹的娱乐场所。",
    "hints": [],
    "vocab": [],
-   "sourceFile": "2017年06月六级真题（第2套）.docx",
+   "sourceFile": "2017.06六级真题第2套【可复制可搜索，打印首选】.pdf",
    "extractedBy": "header"
   },
   {
@@ -7307,7 +7427,7 @@
    "source": "社会生活多种多样。",
    "hints": [],
    "vocab": [],
-   "sourceFile": "2017年06月六级真题（第2套）.docx",
+   "sourceFile": "2017.06六级真题第2套【可复制可搜索，打印首选】.pdf",
    "extractedBy": "header"
   },
   {
@@ -7319,7 +7439,7 @@
    "source": "人们聚集在一起观看和交易珍贵艺术品。",
    "hints": [],
    "vocab": [],
-   "sourceFile": "2017年06月六级真题（第2套）.docx",
+   "sourceFile": "2017.06六级真题第2套【可复制可搜索，打印首选】.pdf",
    "extractedBy": "header"
   },
   {
@@ -7331,7 +7451,7 @@
    "source": "宋朝的政府体制在当时也是先进的。",
    "hints": [],
    "vocab": [],
-   "sourceFile": "2017年06月六级真题（第2套）.docx",
+   "sourceFile": "2017.06六级真题第2套【可复制可搜索，打印首选】.pdf",
    "extractedBy": "header"
   },
   {
@@ -7343,7 +7463,7 @@
    "source": "政府官员均通过竞争性考试选拔任用。",
    "hints": [],
    "vocab": [],
-   "sourceFile": "2017年06月六级真题（第2套）.docx",
+   "sourceFile": "2017.06六级真题第2套【可复制可搜索，打印首选】.pdf",
    "extractedBy": "header"
   },
   {
@@ -7811,7 +7931,7 @@
    "source": "自行车曾经是中国城乡最主要的交通工具，中国一度被称为“自行车王国”。",
    "hints": [],
    "vocab": [],
-   "sourceFile": "2018.06真题第3套.docx",
+   "sourceFile": "2018.06六级真题第3套.pdf",
    "extractedBy": "header"
   },
   {
@@ -7820,10 +7940,10 @@
    "exam": "2018.06",
    "paper": 3,
    "seq": 2,
-   "source": "如今，随着城市交通拥堵和空气污染日益严重，骑自行车又开始起来。",
+   "source": "如今，随着城市交通拥堵和空气污染日益严重，骑自行车又开始流行起来。",
    "hints": [],
    "vocab": [],
-   "sourceFile": "2018.06真题第3套.docx",
+   "sourceFile": "2018.06六级真题第3套.pdf",
    "extractedBy": "header"
   },
   {
@@ -7839,7 +7959,7 @@
    "vocab": [
     "shared bikes"
    ],
-   "sourceFile": "2018.06真题第3套.docx",
+   "sourceFile": "2018.06六级真题第3套.pdf",
    "extractedBy": "header"
   },
   {
@@ -7851,7 +7971,7 @@
    "source": "共享单车的出现使骑车出行更加方便，人们仅需一部手机就可以随时使用共享单车。",
    "hints": [],
    "vocab": [],
-   "sourceFile": "2018.06真题第3套.docx",
+   "sourceFile": "2018.06六级真题第3套.pdf",
    "extractedBy": "header"
   },
   {
@@ -7863,7 +7983,7 @@
    "source": "为了鼓励人们骑车出行，很多城市修建了自行车道。",
    "hints": [],
    "vocab": [],
-   "sourceFile": "2018.06真题第3套.docx",
+   "sourceFile": "2018.06六级真题第3套.pdf",
    "extractedBy": "header"
   },
   {
@@ -7875,7 +7995,7 @@
    "source": "现在，越来越多的中国人也喜欢通过骑车健身。",
    "hints": [],
    "vocab": [],
-   "sourceFile": "2018.06真题第3套.docx",
+   "sourceFile": "2018.06六级真题第3套.pdf",
    "extractedBy": "header"
   },
   {
@@ -8349,9 +8469,13 @@
    "paper": 1,
    "seq": 1,
    "source": "牡丹花色艳丽，形象高雅，象征着和平与繁荣，因而在中国被称为“花中之王”。",
-   "hints": [],
-   "vocab": [],
-   "sourceFile": "2019年12月六级真题（第1套）.docx",
+   "hints": [
+    "peony"
+   ],
+   "vocab": [
+    "peony"
+   ],
+   "sourceFile": "2019.12六级真题第1套.pdf",
    "extractedBy": "header"
   },
   {
@@ -8363,7 +8487,7 @@
    "source": "中国许多地方都培育和种植牡丹。",
    "hints": [],
    "vocab": [],
-   "sourceFile": "2019年12月六级真题（第1套）.docx",
+   "sourceFile": "2019.12六级真题第1套.pdf",
    "extractedBy": "header"
   },
   {
@@ -8372,10 +8496,10 @@
    "exam": "2019.12",
    "paper": 1,
    "seq": 3,
-   "source": "千百年来，创造了许多诗歌和绘画赞美牡丹。",
+   "source": "千百年来，创作了许多诗歌和绘画赞美牡丹。",
    "hints": [],
    "vocab": [],
-   "sourceFile": "2019年12月六级真题（第1套）.docx",
+   "sourceFile": "2019.12六级真题第1套.pdf",
    "extractedBy": "header"
   },
   {
@@ -8387,7 +8511,7 @@
    "source": "唐代时期，牡丹在皇家园林普遍种植并被誉为国花，因而特别风行。",
    "hints": [],
    "vocab": [],
-   "sourceFile": "2019年12月六级真题（第1套）.docx",
+   "sourceFile": "2019.12六级真题第1套.pdf",
    "extractedBy": "header"
   },
   {
@@ -8399,7 +8523,7 @@
    "source": "十世纪时，洛阳古城成为牡丹栽培中心，而且这一地位一直保持到今天。",
    "hints": [],
    "vocab": [],
-   "sourceFile": "2019年12月六级真题（第1套）.docx",
+   "sourceFile": "2019.12六级真题第1套.pdf",
    "extractedBy": "header"
   },
   {
@@ -8408,10 +8532,10 @@
    "exam": "2019.12",
    "paper": 1,
    "seq": 6,
-   "source": "现在，成千上万的国内游客蜂拥到洛阳参加一年一度的牡丹节，欣赏洛阳牡丹独特之美，同时探索九朝古都的历史。",
+   "source": "现在，成千上万的国内外游客蜂拥到洛阳参加一年一度的牡丹节，欣赏洛阳牡丹的独特之美，同时探索九朝古都的历史。",
    "hints": [],
    "vocab": [],
-   "sourceFile": "2019年12月六级真题（第1套）.docx",
+   "sourceFile": "2019.12六级真题第1套.pdf",
    "extractedBy": "header"
   },
   {
@@ -9120,7 +9244,7 @@
    "exam": "2021.06",
    "paper": 2,
    "seq": 1,
-   "source": "中国西北部的一个省份，平均海拔3000米以上大部分地区为高山和高原，青海省得名于全国最大的咸水糊青海湖。",
+   "source": "中国西北部的一个省份，平均海拔3000米以上大部分地区为高山和高原，青海省得名于全国最大的咸水湖青海湖。",
    "hints": [],
    "vocab": [],
    "sourceFile": "2021.06六级真题第2套.docx",
@@ -9132,7 +9256,7 @@
    "exam": "2021.06",
    "paper": 2,
    "seq": 2,
-   "source": "青海湖被誉为\"中国最美的湖泊，是最受欢迎的景点之一，也是摄影师和艺术家的天堂",
+   "source": "青海湖被誉为\"中国最美的湖泊，是最受欢迎的景点之一，也是摄影师和艺术家的天堂。",
    "hints": [],
    "vocab": [],
    "sourceFile": "2021.06六级真题第2套.docx",
@@ -9646,10 +9770,10 @@
    "seq": 1,
    "source": "青藏高原位于中国西南部，面积约230万平方公里，平均海拔4000米以上，被称为“世界屋脊”。",
    "hints": [
-    "theQinghai-TibetPlateau"
+    "the Qinghai-Tibet Plateau"
    ],
    "vocab": [
-    "theQinghai-TibetPlateau"
+    "the Qinghai-Tibet Plateau"
    ],
    "sourceFile": "2022.12六级真题第1套.pdf",
    "extractedBy": "header"
@@ -9734,10 +9858,10 @@
    "seq": 1,
    "source": "黄土高原是中国第三大高原，面积约60万平方公里，平均海拔1000-2000米，绝大部分覆盖着50-80米厚的黄土，是世界上黄土分布最集中、覆盖厚度最大的区域。",
    "hints": [
-    "theLoessPlateau"
+    "the Loess Plateau"
    ],
    "vocab": [
-    "theLoessPlateau"
+    "the Loess Plateau"
    ],
    "sourceFile": "2022.12六级真题第2套.pdf",
    "extractedBy": "header"
@@ -9810,10 +9934,10 @@
    "seq": 1,
    "source": "云贵高原大部分位于云南、贵州省境内，总面积约50万平方公里，平均海拔2000-4000米，是中国第四大高原。",
    "hints": [
-    "theYunnan-GuizhouPlateau"
+    "the Yunnan-Guizhou Plateau"
    ],
    "vocab": [
-    "theYunnan-GuizhouPlateau"
+    "the Yunnan-Guizhou Plateau"
    ],
    "sourceFile": "2022.12六级真题第3套.pdf",
    "extractedBy": "header"
@@ -10008,31 +10132,7 @@
    "exam": "2023.06",
    "paper": 3,
    "seq": 3,
-   "source": "中国持续开展城市生态修复和功能修补，全面实施城",
-   "hints": [],
-   "vocab": [],
-   "sourceFile": "2023.06六级真题第3套.pdf",
-   "extractedBy": "header"
-  },
-  {
-   "id": "cet6-2023.06-3-4",
-   "level": "cet6",
-   "exam": "2023.06",
-   "paper": 3,
-   "seq": 4,
-   "source": "镇老旧小区改造，大力推进城市园林绿化，消除污染；同时大力推进城市基础设施体系化建设，开展房屋建",
-   "hints": [],
-   "vocab": [],
-   "sourceFile": "2023.06六级真题第3套.pdf",
-   "extractedBy": "header"
-  },
-  {
-   "id": "cet6-2023.06-3-5",
-   "level": "cet6",
-   "exam": "2023.06",
-   "paper": 3,
-   "seq": 5,
-   "source": "筑和市政设施普查以及安全隐患排查整治，努力为市民创造高品质的生活环境，让城市更美丽、更安全、更宜居。",
+   "source": "中国持续开展城市生态修复和功能修补，全面实施城镇老旧小区改造，大力推进城市园林绿化，消除污染；同时大力推进城市基础设施体系化建设，开展房屋建筑和市政设施普查以及安全隐患排查整治，努力为市民创造高品质的生活环境，让城市更美丽、更安全、更宜居。",
    "hints": [],
    "vocab": [],
    "sourceFile": "2023.06六级真题第3套.pdf",
@@ -10682,10 +10782,10 @@
    "seq": 1,
    "source": "天宫空间站是中国首个太空实验室，拥有110多立方米使用空间，可驻留三名宇航员，在距地球表面400-450公里的轨道上运行。",
    "hints": [
-    "TiangongSpaceStation"
+    "Tiangong Space Station"
    ],
    "vocab": [
-    "TiangongSpaceStation"
+    "Tiangong Space Station"
    ],
    "sourceFile": "2025.06六级真题第1套.pdf",
    "extractedBy": "header"
@@ -10746,10 +10846,10 @@
    "seq": 1,
    "source": "粤港澳大湾区具有得天独厚的地理位置，拥有完善的交通基础设施和丰富的产业资源。",
    "hints": [
-    "Guangdong-HongKong-MacaoGreaterBayArea"
+    "Guangdong-Hong Kong-Macao Greater Bay Area"
    ],
    "vocab": [
-    "Guangdong-HongKong-MacaoGreaterBayArea"
+    "Guangdong-Hong Kong-Macao Greater Bay Area"
    ],
    "sourceFile": "2025.06六级真题第2套.pdf",
    "extractedBy": "header"
@@ -10822,10 +10922,10 @@
    "seq": 2,
    "source": "为了有效解决北方严重缺水问题，中国政府实施了南水北调工程。",
    "hints": [
-    "theSouth-to-North.WaterDiversionProject"
+    "the South-to-North.Water Diversion Project"
    ],
    "vocab": [
-    "theSouth-to-North.WaterDiversionProject"
+    "the South-to-North.Water Diversion Project"
    ],
    "sourceFile": "2025.06六级真题第3套.pdf",
    "extractedBy": "header"
