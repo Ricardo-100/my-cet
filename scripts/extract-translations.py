@@ -214,6 +214,9 @@ BREAK_LINE = (
     re.compile(r'^\s*公众号'),
     # 卷子末尾的说明性小注：'注：2022年9月四级考试共考了1套听力…'
     re.compile(r'^\s*注\s*[:：]'),
+    # 卷首/'此部分'指引语，被 OCR 或者 doc 转存成了一句题干
+    re.compile(r'^\s*注意\s*[:：]'),
+    re.compile(r'此部分试题|请在答题卡'),
     re.compile(r'^\s*请用黑色签字笔'),
     re.compile(r'^\s*未得到监考教师'),
     re.compile(r'^\s*准考证号'),
@@ -221,6 +224,8 @@ BREAK_LINE = (
     # 页脚：'六级 2021 年 6 月 31'、'2022年6月英语六级真题第2套 第1页 共1页'
     re.compile(r'^\s*(?:四|六)级\s*\d{4}\s*年'),
     re.compile(r'^\s*\d{4}\s*年\s*\d{1,2}\s*月.*真题'),
+    # OCR 的页脚常带个前导圆点：'·2023年12月四级真题（第一套）'
+    re.compile(r'^\s*[·•・]\s*\d{4}\s*年'),
     re.compile(r'第\s*\d+\s*页\s*共\s*\d+\s*页'),
 )
 
@@ -360,6 +365,8 @@ def strip_hints(zh: str):
             for h in re.split(r'[,，;；/]', inner):
                 # \x01 是段内软换行占位符：'lucky\x01money' 得还原成一个词
                 h = re.sub(r'\x01+', ' ', h).strip(' .。')
+                # OCR 丢空格时 'GrandCanal' 能按大小写边界找回来
+                h = re.sub(r'(?<=[a-z])(?=[A-Z])', ' ', h)
                 h = re.sub(r'\s{2,}', ' ', h)
                 if h:
                     hints.append(h)
@@ -399,11 +406,14 @@ def _split_soft_wraps(p: str):
 
     只在句长超标时调用——真题翻译句极少超过 100 字。
 
-    换行位置是源文件里唯一还留着的段落线索。先把不足 10 字的碎块并回邻居，
-    再要求每块都够长——'中国的无 / 人机以…' 这种纯硬换行切了只会切出残句，
-    不该切。
+    换行位置是源文件里唯一还留着的段落线索。但只在**换行前是中文标点**时
+    才切：那才像一句话说完了。正文中间硬换行的位置（'…全面实施城\\x01镇老旧
+    小区…'）切下去只会切出半句话，这种宁可留着长句。
     """
-    chunks = [q.strip() for q in p.split('\x01') if q.strip()]
+    # 每个 \x01 前面如果是 ，。；：、！？ 说明这里是句内或句末的边界
+    cuts = [0] + [mm.end() for mm in re.finditer(r'[，。；：、！？]\s*\x01', p)] + [len(p)]
+    chunks = [p[cuts[i]:cuts[i + 1]] for i in range(len(cuts) - 1)]
+    chunks = [q.strip() for q in chunks if q.strip()]
     if len(chunks) < 2:
         return [p]
     merged: list[str] = []
@@ -447,11 +457,17 @@ def split_sentences(para: str):
 
     out = []
     for p in pieces:
+        # 除了最后一句，其余必须以句末标点收尾。收不成句号的说明上一刀切错了
+        # 位置（源文件在中途硬换行），拼回下一句——长句可以接受，半句话不行。
+        if out and p.rstrip()[-1:] not in '。？！':
+            out[-1] = (out[-1][0] + p, out[-1][1])
+            continue
         clean, hints = strip_hints(p)
         clean = _squeeze_ws_no_latin(clean.replace('\x01', '')).strip()
         if len(clean) < 4 or not CJK.search(clean) or BOILERPLATE.search(clean):
             continue
         out.append((clean, hints))
+    # 末句没收尾标点通常是源文件被截断，extract() 里会按同样的规则丢掉
     return out
 
 
@@ -460,13 +476,15 @@ def repair_punct(zh: str) -> str:
 
     1. 句号渲成字母 o/O（海南…气候宜人 o）。\x01 是段内软换行占位符，
        也得算「后面还有内容」，否则 '游客o\x01海南1988年' 修不回来。
+       左边不只看汉字：括号被剥成提示词后会露出 '（diet）o 通过'，
+       句号跟在闭括号/闭引号后面同样成立。
     2. 逗号渲成感叹号（地大物博!石油和天然气…）
     3. 逗号渲成右单引号（…发源地’在中国的水生态…）
     4. 千分位逗号被认成句点（OCR：'2.000多年'）。
     """
     # OCR 常把千分位逗号认成句点：'2.000多年' → '2,000多年'
     z = re.sub(r'(?<=\d)\.(?=\d{3}(?!\d))', ',', zh)
-    z = re.sub(r'(?<=[一-鿿])\s*[oO](?=\s*(?:[一-鿿]|\x01|$))', '。', z)
+    z = re.sub(r'(?<=[一-鿿）】」』])\s*[oO](?=\s*(?:[一-鿿]|\x01|$))', '。', z)
     z = re.sub(r'(?<=[一-鿿])[’\'](?=[一-鿿])', '，', z)
     # 半角感叹号夹在中文里基本是坏逗号
     z = re.sub(r'(?<=[一-鿿])!(?=[一-鿿])', '，', z)
@@ -482,6 +500,8 @@ GLYPH_FIX = (
     ('清澈貞', '清澈，'),
     ('基千', '基于'),
     ('亳不', '毫不'),
+    # OCR 把 '湖' 认成形近的 '糊'（青海省得名于全国最大的咸水糊青海湖）
+    ('咸水糊', '咸水湖'),
 )
 
 
@@ -580,6 +600,12 @@ def paper_no_of(fname: str) -> int:
     取不到就返回 1，由调用方按块序号累加。
     """
     m = re.search(rf'第\s*([{CN_NUM}\d]+)\s*(?:[、,，~\-到至]+\s*([{CN_NUM}\d]+))?\s*套', fname)
+    if m:
+        g = m.group(1)
+        return CN_NUM.index(g) + 1 if g in CN_NUM else int(g)
+    # '（卷一）' / '（卷2）'：2017.12 四级三套全用这个命名，
+    # 不认的话三个文件都落到 1 号，质量pk 完只剩一套
+    m = re.search(rf'卷\s*([{CN_NUM}\d]+)', fname)
     if m:
         g = m.group(1)
         return CN_NUM.index(g) + 1 if g in CN_NUM else int(g)
