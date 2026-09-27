@@ -48,3 +48,7 @@ data/.cache/
 # Python 抽取脚本的字节码缓存，跟本地解释器版本绑定，入库只会污染 diff
 __pycache__/
 *.pyc
+
+# AI agent 的项目规范文件，只留在本地，不进远程仓库
+CLAUDE.md
+AGENTS.md
