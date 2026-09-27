@@ -44,3 +44,7 @@ next-env.d.ts
 /data/CET46-Resources-main/
 # CET 真题抽取缓存（LibreOffice 转 txt / OCR 结果）
 data/.cache/
+
+# Python 抽取脚本的字节码缓存，跟本地解释器版本绑定，入库只会污染 diff
+__pycache__/
+*.pyc
