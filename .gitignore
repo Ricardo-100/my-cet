@@ -39,3 +39,8 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# CET 真题原始资料：2.2G 不入库，只入库 scripts/ 生成的题库
+/data/CET46-Resources-main/
+# CET 真题抽取缓存（LibreOffice 转 txt / OCR 结果）
+data/.cache/

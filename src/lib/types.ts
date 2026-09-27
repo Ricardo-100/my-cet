@@ -12,6 +12,14 @@ export interface Sentence {
   zhReference?: string;
   /** Key vocabulary list */
   vocab?: string[];
+  /** 原卷给出的英文提示词（真题 Translation 段的括号提示），按句归属 */
+  hints?: string[];
+  /** 真题考次，如 '2024.12'；手工题没有这个字段 */
+  exam?: string;
+  /** 真题套号 1-3 */
+  paper?: number;
+  /** 四级还是六级真题。四六级同一考次都存在，光看 exam 分不清 */
+  level?: 'cet4' | 'cet6';
 }
 
 export interface TranslationRecord {
@@ -74,6 +82,7 @@ export type AppState = {
   settings: {
     direction: Direction;
     difficulty: Difficulty;
-    autoAdvance: boolean;
+    /** 选中的模型 id，须在 AVAILABLE_MODELS 白名单内 */
+    model: string;
   };
 };

@@ -1,18 +1,13 @@
 'use client';
 
-import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { AppState, TranslationRecord } from '@/lib/types';
-import { getState } from '@/lib/storage';
+import { useClientData } from '@/lib/use-client-data';
 import StatsDisplay from '@/components/stats-display';
 
 export default function StatsPage() {
   const router = useRouter();
-  const [state, setState] = useState<AppState>(getState());
-
-  useEffect(() => {
-    setState(getState());
-  }, []);
+  // useSyncExternalStore：首帧与 SSR 一致，挂载后自动切到真实数据
+  const { state } = useClientData();
 
   const { records, progress } = state;
 

@@ -1,7 +1,7 @@
 'use client';
 
 import { UserProgress, TranslationRecord } from '@/lib/types';
-import { getScoreDistribution, getDirectionStats, getRecentRecords } from '@/lib/storage';
+import { getScoreDistribution, getDirectionStats } from '@/lib/storage';
 
 interface Props {
   records: TranslationRecord[];
@@ -9,7 +9,6 @@ interface Props {
 }
 
 export default function StatsDisplay({ records, progress }: Props) {
-  const recentRecords = getRecentRecords(records, 30);
   const scoreDist = getScoreDistribution(records);
   const dirStats = getDirectionStats(records);
   const maxBar = Math.max(...Object.values(scoreDist), 1);
@@ -19,10 +18,16 @@ export default function StatsDisplay({ records, progress }: Props) {
     return `${date.getMonth() + 1}/${date.getDate()}`;
   };
 
+  // 用最新一条记录当「今天」的锚点，不读时钟：
+  // 一是 Date.now() 在 SSR 与客户端各有一个值，是 hydration mismatch 的经典来源；
+  // 二是这样「近7天」永远覆盖有数据的那几天。
+  const anchor = records.reduce((max, r) => Math.max(max, r.timestamp), 0);
+  const hasRecords = records.length > 0;
+
   // Last 7 days score chart data
   const last7Days = [];
   for (let i = 6; i >= 0; i--) {
-    const cutoff = Date.now() - i * 24 * 60 * 60 * 1000;
+    const cutoff = anchor - i * 24 * 60 * 60 * 1000;
     const dayStart = new Date(cutoff);
     dayStart.setHours(0, 0, 0, 0);
     const dayEnd = new Date(cutoff);
@@ -57,25 +62,31 @@ export default function StatsDisplay({ records, progress }: Props) {
       {/* 7-Day Score Trend */}
       <div className="bg-gray-700/30 rounded-lg p-5">
         <h3 className="text-sm font-medium text-gray-300 mb-4">近7天分数趋势</h3>
-        <div className="flex items-end justify-between gap-2 h-32">
-          {last7Days.map((day, i) => (
-            <div key={i} className="flex-1 flex flex-col items-center gap-1">
-              <div className="text-xs text-gray-400">{day.score ?? '-'}</div>
-              <div className="w-full bg-gray-600 rounded-t relative" style={{ height: '80px' }}>
-                {day.score !== null && (
-                  <div
-                    className={`absolute bottom-0 w-full rounded-t transition-all duration-500 ${
-                      day.score >= 75 ? 'bg-green-500' :
-                      day.score >= 60 ? 'bg-yellow-500' : 'bg-red-500'
-                    }`}
-                    style={{ height: `${(day.score / 100) * 100}%` }}
-                  />
-                )}
+        {!hasRecords ? (
+          <p className="h-32 flex items-center justify-center text-sm text-gray-500">
+            还没有练习记录，去做第一道翻译题吧
+          </p>
+        ) : (
+          <div className="flex items-end justify-between gap-2 h-32">
+            {last7Days.map((day, i) => (
+              <div key={i} className="flex-1 flex flex-col items-center gap-1">
+                <div className="text-xs text-gray-400">{day.score ?? '-'}</div>
+                <div className="w-full bg-gray-600 rounded-t relative" style={{ height: '80px' }}>
+                  {day.score !== null && (
+                    <div
+                      className={`absolute bottom-0 w-full rounded-t transition-all duration-500 ${
+                        day.score >= 75 ? 'bg-green-500' :
+                        day.score >= 60 ? 'bg-yellow-500' : 'bg-red-500'
+                      }`}
+                      style={{ height: `${(day.score / 100) * 100}%` }}
+                    />
+                  )}
+                </div>
+                <div className="text-xs text-gray-500">{day.label}</div>
               </div>
-              <div className="text-xs text-gray-500">{day.label}</div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
       </div>
 
       {/* Score Distribution */}

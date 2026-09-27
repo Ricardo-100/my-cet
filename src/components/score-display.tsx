@@ -1,16 +1,18 @@
 'use client';
 
-import { EvaluateResult } from '@/lib/types';
+import { Direction, EvaluateResult } from '@/lib/types';
 
 interface Props {
   result: EvaluateResult;
   onNext: () => void;
   isLast?: boolean;
   isWrong: boolean;
-  direction: string;
+  direction: Direction;
+  /** 学生提交的翻译，用来和参考译文对照 */
+  userTranslation: string;
 }
 
-export default function ScoreDisplay({ result, onNext, isLast, isWrong, direction }: Props) {
+export default function ScoreDisplay({ result, onNext, isLast, isWrong, direction, userTranslation }: Props) {
   const getScoreColor = (score: number) => {
     if (score >= 90) return 'text-green-400';
     if (score >= 75) return 'text-blue-400';
@@ -107,13 +109,24 @@ export default function ScoreDisplay({ result, onNext, isLast, isWrong, directio
         </div>
       </div>
 
-      {/* Reference Translation */}
-      <div className="bg-blue-900/20 border border-blue-700/30 rounded-lg p-4">
-        <h4 className="text-sm font-medium text-blue-300 mb-2">
-          参考译文 ({direction === 'en-zh' ? '中文' : 'English'})
-        </h4>
-        <div className="text-sm text-gray-300 leading-relaxed">
-          {result.reference}
+      {/* 你的翻译 vs 参考译文 */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="bg-gray-700/30 border border-gray-600 rounded-lg p-4">
+          <h4 className="text-sm font-medium text-gray-300 mb-2">
+            你的翻译 ({direction === 'en-zh' ? '中文' : 'English'})
+          </h4>
+          <div className="text-sm text-gray-300 leading-relaxed whitespace-pre-wrap">
+            {userTranslation || '（未填写）'}
+          </div>
+        </div>
+
+        <div className="bg-blue-900/20 border border-blue-700/30 rounded-lg p-4">
+          <h4 className="text-sm font-medium text-blue-300 mb-2">
+            参考译文 ({direction === 'en-zh' ? '中文' : 'English'})
+          </h4>
+          <div className="text-sm text-gray-300 leading-relaxed whitespace-pre-wrap">
+            {result.reference || '（无）'}
+          </div>
         </div>
       </div>
 

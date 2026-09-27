@@ -1,7 +1,9 @@
-/** @type {import('next').NextConfig} */
+/** @type {import('next').nextConfig} */
 const nextConfig = {
-  // Enable strict mode
   reactStrictMode: true,
+  turbopack: {
+    root: __dirname,
+  },
 };
 
 export default nextConfig;

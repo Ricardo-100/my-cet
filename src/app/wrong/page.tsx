@@ -1,62 +1,52 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useCallback, useState } from 'react';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { AppState, Sentence, Direction } from '@/lib/types';
-import { getState, removeWrongRecord, clearWrongRecords, addRecord } from '@/lib/storage';
+import { Sentence, EvaluateResult } from '@/lib/types';
+import {getState, removeWrongRecord, clearWrongRecords, addRecord} from '@/lib/storage';
+import { useClientData } from '@/lib/use-client-data';
 import WrongList from '@/components/wrong-list';
-import { getRandomSentence } from '@/lib/data';
+import { getSentenceById } from '@/lib/data';
 
 export default function WrongPage() {
   const router = useRouter();
-  const [state, setState] = useState<AppState>(getState());
+  // useSyncExternalStore：首帧与 SSR 一致，挂载后自动切到真实数据
+  const { state } = useClientData();
   const [currentSentence, setCurrentSentence] = useState<Sentence | null>(null);
   const [translation, setTranslation] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [result, setResult] = useState<any>(null);
+  const [result, setResult] = useState<EvaluateResult | null>(null);
   const [isReviewing, setIsReviewing] = useState(false);
-  const [isReloading, setIsReloading] = useState(false);
 
-  const reload = () => {
-    setState(getState());
-    setIsReloading(prev => !prev);
-  };
-
-  // Listen for storage changes
-  useEffect(() => {
-    const handleStorage = () => {
-      const s = getState();
-      setState(s);
-      if (currentSentence && !s.wrongRecords.find(w => w.sentenceId === currentSentence.id)) {
-        setCurrentSentence(null);
-        setResult(null);
-        setTranslation('');
-        setIsReviewing(false);
-      }
-    };
-    window.addEventListener('storage', handleStorage);
-    return () => window.removeEventListener('storage', handleStorage);
-  }, [currentSentence]);
+  /** 退出复习模式并清空输入；错题被删除时调用 */
+  const exitReview = useCallback(() => {
+    setCurrentSentence(null);
+    setResult(null);
+    setTranslation('');
+    setIsReviewing(false);
+  }, []);
 
   const handleReview = (sentenceId: string) => {
-    const sentence = currentSentence;
-    if (!sentence || sentence.id !== sentenceId) {
-      const sentenceData = sentenceId;
-      // Find from wrong records
-      const state = getState();
-      const wrong = state.wrongRecords.find(w => w.sentenceId === sentenceId);
-      if (wrong) {
-        // Create a sentence-like object for reviewing
-        setCurrentSentence({
-          id: wrong.sentenceId,
-          text: wrong.sourceText,
-          direction: wrong.direction,
-          difficulty: 'cet4',
-          enOriginal: wrong.sourceText,
-          zhReference: wrong.referenceTranslation,
-        } as Sentence);
-      }
-    }
+    const wrong = getState().wrongRecords.find(w => w.sentenceId === sentenceId);
+    if (!wrong) return;
+
+    // 题库里有原文就更可靠：用它补上难度和正确的参考译文字段
+    const fromBank = getSentenceById(wrong.sentenceId);
+    const reference = fromBank
+      ? fromBank.direction === 'en-zh'
+        ? fromBank.zhReference ?? wrong.referenceTranslation
+        : fromBank.enOriginal ?? wrong.referenceTranslation
+      : wrong.referenceTranslation;
+
+    setCurrentSentence({
+      id: wrong.sentenceId,
+      text: wrong.sourceText,
+      direction: wrong.direction,
+      difficulty: fromBank?.difficulty ?? 'cet4',
+      enOriginal: wrong.direction === 'en-zh' ? wrong.sourceText : reference,
+      zhReference: wrong.direction === 'en-zh' ? reference : wrong.sourceText,
+    });
     setTranslation('');
     setResult(null);
     setIsReviewing(true);
@@ -72,37 +62,41 @@ export default function WrongPage() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
+          sentenceId: currentSentence.id,
           sourceText: currentSentence.text,
           userTranslation: translation.trim(),
           referenceTranslation: currentSentence.zhReference || '',
           direction: currentSentence.direction,
+          model: getState().settings.model,
         }),
       });
 
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || '评分失败');
 
-      const isWrong = data.score < 70;
+      const evalResult = data as EvaluateResult;
+      const isWrong = evalResult.score < 70;
 
-      const record = {
+      addRecord({
         sentenceId: currentSentence.id,
         direction: currentSentence.direction,
         sourceText: currentSentence.text,
         userTranslation: translation.trim(),
         referenceTranslation: currentSentence.zhReference || '',
-        score: data.score,
-        accuracy: data.accuracy,
-        fluency: data.fluency,
-        feedback: data.feedback,
+        score: evalResult.score,
+        accuracy: evalResult.accuracy,
+        fluency: evalResult.fluency,
+        feedback: evalResult.feedback,
         timestamp: Date.now(),
         isWrong,
-      };
+      });
 
-      addRecord(record);
-      setResult(data);
+      setResult(evalResult);
 
       if (!isWrong) {
+        // 已经掌握了：从错题集移除，并退出复习模式
         removeWrongRecord(currentSentence.id);
+        exitReview();
       }
     } catch (err) {
       setResult({
@@ -111,6 +105,7 @@ export default function WrongPage() {
         fluency: 0,
         feedback: err instanceof Error ? err.message : '评分失败',
         reference: currentSentence.zhReference || '',
+        vocab: [],
       });
     } finally {
       setIsSubmitting(false);
@@ -231,7 +226,7 @@ export default function WrongPage() {
             ← 返回首页
           </button>
           <h1 className="text-lg font-semibold text-white">📕 错题集</h1>
-          <div className="w-20" />
+          <Link href="/settings" className="text-sm text-gray-400 hover:text-white">设置</Link>
         </div>
       </div>
 
@@ -240,12 +235,13 @@ export default function WrongPage() {
           records={state.wrongRecords}
           onDelete={(id) => {
             removeWrongRecord(id);
-            reload();
+            // 删掉的正是正在复习的那道，就退出复习模式
+            if (currentSentence?.id === id) exitReview();
           }}
           onClearAll={() => {
             if (confirm('确定清空所有错题？此操作不可撤销。')) {
               clearWrongRecords();
-              reload();
+              exitReview();
             }
           }}
           onReview={handleReview}

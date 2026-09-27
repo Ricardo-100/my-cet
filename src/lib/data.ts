@@ -1,4 +1,6 @@
-import { Sentence, Direction, Difficulty } from './types';
+import { Sentence, Direction } from './types';
+import { bankSentences } from './bank';
+import { getCustomSentences } from './storage';
 
 // === CET-4 英译汉句子 ===
 const cet4EnZh: Sentence[] = [
@@ -136,6 +138,51 @@ const cet4EnZh: Sentence[] = [
     enOriginal: 'Volunteering is a great way to give back to the community.',
     zhReference: '志愿服务是回馈社区的好方法。',
     vocab: ['volunteering', 'give back'],
+  },
+  {
+    id: 'cet4-ez-016',
+    text: 'People in the countryside used to rely on agriculture for a living.',
+    direction: 'en-zh',
+    difficulty: 'cet4',
+    enOriginal: 'People in the countryside used to rely on agriculture for a living.',
+    zhReference: '农村居民过去以务农为生。',
+    vocab: ['countryside', 'rely on', 'agriculture'],
+  },
+  {
+    id: 'cet4-ez-017',
+    text: 'The museum attracts visitors from all over the world.',
+    direction: 'en-zh',
+    difficulty: 'cet4',
+    enOriginal: 'The museum attracts visitors from all over the world.',
+    zhReference: '这座博物馆吸引着来自世界各地的游客。',
+    vocab: ['museum', 'attracts'],
+  },
+  {
+    id: 'cet4-ez-018',
+    text: 'We should respect people from different cultural backgrounds.',
+    direction: 'en-zh',
+    difficulty: 'cet4',
+    enOriginal: 'We should respect people from different cultural backgrounds.',
+    zhReference: '我们应该尊重来自不同文化背景的人。',
+    vocab: ['cultural backgrounds'],
+  },
+  {
+    id: 'cet4-ez-019',
+    text: 'Online shopping has become increasingly popular in recent years.',
+    direction: 'en-zh',
+    difficulty: 'cet4',
+    enOriginal: 'Online shopping has become increasingly popular in recent years.',
+    zhReference: '近年来，网上购物变得越来越流行。',
+    vocab: ['online shopping', 'increasingly popular'],
+  },
+  {
+    id: 'cet4-ez-020',
+    text: 'Parents play a significant role in shaping their children\'s character.',
+    direction: 'en-zh',
+    difficulty: 'cet4',
+    enOriginal: 'Parents play a significant role in shaping their children\'s character.',
+    zhReference: '父母在塑造孩子性格方面扮演着重要角色。',
+    vocab: ['play a significant role', 'shaping'],
   },
 ];
 
@@ -467,7 +514,9 @@ const cet6ZhEn: Sentence[] = [
 ];
 
 // === 汇总 ===
+// 手工例句 + 真题题库（data/bank/translations.json，脚本生成）
 export const allSentences: Sentence[] = [
+  ...bankSentences,
   ...cet4EnZh,
   ...cet4ZhEn,
   ...cet6EnZh,
@@ -476,13 +525,19 @@ export const allSentences: Sentence[] = [
 
 export function getSentences(
   direction: Direction,
-  difficulty: Difficulty
+  difficulty: string
 ): Sentence[] {
   let pool = allSentences;
 
+  // Include custom sentences
+  const custom = getCustomSentences();
+  if (custom.length > 0) {
+    pool = [...pool, ...custom];
+  }
+
   // 难度过滤
   if (difficulty !== 'mixed') {
-    pool = pool.filter(s => s.difficulty === difficulty);
+    pool = pool.filter(s => s.difficulty === difficulty || s.difficulty === 'mixed');
   }
 
   // 方向过滤
@@ -493,7 +548,7 @@ export function getSentences(
 
 export function getRandomSentence(
   direction: Direction,
-  difficulty: Difficulty,
+  difficulty: string,
   excludeIds: string[] = []
 ): Sentence {
   const pool = getSentences(direction, difficulty).filter(
@@ -501,15 +556,31 @@ export function getRandomSentence(
   );
 
   if (pool.length === 0) {
-    // 如果全做完了，重新开始
-    return getSentences(direction, difficulty)[
-      Math.floor(Math.random() * getSentences(direction, difficulty).length)
-    ];
+    const all = getSentences(direction, difficulty);
+    if (all.length === 0) {
+      // Fallback: return a generic sentence
+      return {
+        id: 'fallback-1',
+        text: direction === 'en-zh'
+          ? 'Practice makes perfect.'
+          : '熟能生巧。',
+        direction,
+        difficulty: 'cet4',
+        enOriginal: 'Practice makes perfect.',
+        zhReference: '熟能生巧。',
+        vocab: [],
+      };
+    }
+    return all[Math.floor(Math.random() * all.length)];
   }
 
   return pool[Math.floor(Math.random() * pool.length)];
 }
 
 export function getSentenceById(id: string): Sentence | undefined {
-  return allSentences.find(s => s.id === id);
+  return allSentences.find(s => s.id === id)
+    || getCustomSentences().find(s => s.id === id);
 }
+
+/** 真题题目数，用于设置页展示题库规模 */
+export const bankCount = bankSentences.length;

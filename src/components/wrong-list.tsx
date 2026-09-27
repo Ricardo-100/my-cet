@@ -16,7 +16,7 @@ export default function WrongList({ records, onDelete, onClearAll, onReview }: P
         <div className="text-6xl mb-4">🎉</div>
         <h3 className="text-lg font-medium text-gray-300 mb-2">错题集为空</h3>
         <p className="text-sm text-gray-500">
-          完成翻译练习后，分数低于 60 分的题目会自动加入错题集
+          完成翻译练习后，分数低于 70 分的题目会自动加入错题集
         </p>
       </div>
     );
